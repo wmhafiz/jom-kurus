@@ -67,21 +67,27 @@ enum Gender {
   FEMALE
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String
   email         String    @unique
   emailVerified DateTime?
   image         String
+  userRole      UserRole  @default(USER)
 
-  age                      Int
-  gender                   Gender
-  height                   Float
-  startingWeight           Float
-  targetWeight             Float
-  targetDailyCalIntake     Float
-  targetWeeklyCalBurnt     Float
-  targetWeeklyExercseCount Int
+  age                      Int?
+  gender                   Gender?
+  height                   Float?
+  startingWeight           Float?
+  targetWeight             Float?
+  targetDailyCalIntake     Float?
+  targetWeeklyCalBurnt     Float?
+  targetWeeklyExercseCount Int?
 
   accounts Account[]
   sessions Session[]
@@ -117,7 +123,7 @@ enum DietCategory {
 
 model DietLog {
   id            String       @id @default(cuid())
-  description   String
+  description   String?
   category      DietCategory
   calorieIntake Float
 
@@ -139,7 +145,7 @@ enum WorkoutCategory {
 
 model WorkoutLog {
   id           String          @id @default(cuid())
-  description  String
+  description  String?
   category     WorkoutCategory
   calorieBurnt Float
   minutes      Float

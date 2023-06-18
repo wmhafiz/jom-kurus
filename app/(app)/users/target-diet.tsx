@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable no-shadow */
+import React from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const data = [
@@ -53,9 +55,9 @@ const data = [
   },
 ];
 
-export function Overview() {
+export default function TargetDiet() {
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={150}>
       <BarChart data={data}>
         <XAxis
           dataKey="name"

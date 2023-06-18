@@ -1,40 +1,55 @@
-import Link from "next/link"
+"use client";
 
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  const pathname = usePathname();
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
       <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium transition-colors hover:text-primary"
+        href="/"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          pathname.endsWith("/") ? "" : "text-muted-foreground"
+        )}
       >
-        Overview
+        Home
       </Link>
       <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        href="/leaderboards"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          pathname.startsWith("/leaderboards") ? "" : "text-muted-foreground"
+        )}
       >
-        Customers
+        Leaderboards
       </Link>
       <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        href="/users"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          pathname.startsWith("/users") ? "" : "text-muted-foreground"
+        )}
       >
-        Products
+        Users
       </Link>
       <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        href="/settings"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          pathname.startsWith("/settings") ? "" : "text-muted-foreground"
+        )}
       >
         Settings
       </Link>
     </nav>
-  )
+  );
 }

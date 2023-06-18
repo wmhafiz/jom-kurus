@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+enum PostCategory {
+  LIFE
+  FITNESS
+  PROGRAMMING
+  FAMILY
+  GAMES
+}
+
+model Post {
+  id       String       @id @default(cuid())
+  title    String
+  body     String
+  category PostCategory
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([authorId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String
+
+  age                      Int
+  gender                   Gender
+  height                   Float
+  startingWeight           Float
+  targetWeight             Float
+  targetDailyCalIntake     Float
+  targetWeeklyCalBurnt     Float
+  targetWeeklyExercseCount Int
+
+  accounts Account[]
+  sessions Session[]
+
+  posts        Post[]
+  progressLogs ProgressLog[]
+  dietLogs     DietLog[]
+  workoutLogs  WorkoutLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProgressLog {
+  id         String @id @default(cuid())
+  weight     Float
+  weightLoss Float
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum DietCategory {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+model DietLog {
+  id            String       @id @default(cuid())
+  description   String
+  category      DietCategory
+  calorieIntake Float
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum WorkoutCategory {
+  VR_BEATSABER
+  VR_PISTOLWHIP
+  JOGGING
+  THREADMILL
+  ZUMBA
+}
+
+model WorkoutLog {
+  id           String          @id @default(cuid())
+  description  String
+  category     WorkoutCategory
+  calorieBurnt Float
+  minutes      Float
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}

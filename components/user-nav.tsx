@@ -13,9 +13,15 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export function UserNav() {
+  const { data: session, status } = useSession();
+
+  if (status === "unauthenticated") {
+    return <Button onClick={() => signIn("discord")}>Login</Button>;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,9 +35,11 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Wan Mohd Hafiz</p>
+            <p className="text-sm font-medium leading-none">
+              {session?.user.name}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
-              fizyboy@gmail.com
+              {session?.user.email}
             </p>
           </div>
         </DropdownMenuLabel>

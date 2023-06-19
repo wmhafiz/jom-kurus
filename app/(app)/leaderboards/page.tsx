@@ -114,6 +114,9 @@ export default function LeaderboardsPage() {
             </Card>
           </div>
         </TabsContent>
+        <TabsContent value="workout" className="space-y-4">
+          Test
+        </TabsContent>
       </Tabs>
     </>
   );

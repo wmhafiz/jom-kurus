@@ -83,7 +83,6 @@ export default function OverviewTab() {
         <Card className="col-span-4">
           <CardHeader>
             <CardTitle>Recent Workout</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
           </CardHeader>
           <CardContent>
             <RecentWorkout />

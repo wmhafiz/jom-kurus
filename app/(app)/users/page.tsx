@@ -6,7 +6,6 @@ import UserSwitcher from "@/components/user-switcher";
 import OverviewTab from "./overview";
 import IntakeTab from "./intake";
 import BurntTab from "./burnt";
-import { getAllUsers } from "@/data/users";
 
 export const metadata: Metadata = {
   title: "JomKur.us: User",
@@ -14,8 +13,6 @@ export const metadata: Metadata = {
 };
 
 export default async function UsersPage() {
-  const users = await getAllUsers();
-  console.log({ users });
   return (
     <>
       <div className="flex items-center justify-between space-y-2">

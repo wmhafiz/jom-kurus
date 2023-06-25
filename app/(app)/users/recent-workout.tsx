@@ -1,14 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getRecentWorkouts } from "@/data/workouts";
-import { randomInt } from "crypto";
 
 export async function RecentWorkout() {
   const recentWorkouts = await getRecentWorkouts();
-  console.log("recentWorkouts", JSON.stringify(recentWorkouts, null, 2));
   return (
     <div className="space-y-8">
       {recentWorkouts.map((workout, idx) => (
-        <>
+        <div key={idx}>
           <div className="flex items-center">
             <Avatar className="h-9 w-9">
               <AvatarImage src="/avatars/01.png" alt="Avatar" />
@@ -24,7 +22,7 @@ export async function RecentWorkout() {
             </div>
             <div className="ml-auto font-medium">{workout.minutes} min</div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

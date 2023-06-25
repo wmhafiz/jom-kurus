@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Menu, Transition } from "@headlessui/react";
 import { Workout } from "@/types/db";
+import Image from "next/image";
 
 export function WeeklyActivity({ workouts }: { workouts: Workout[] }) {
   let today = startOfToday();
@@ -93,7 +94,9 @@ export function WeeklyActivity({ workouts }: { workouts: Workout[] }) {
 function WorkoutDetail({ workout }: { workout: Workout }) {
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <img
+      <Image
+        width={25}
+        height={25}
         src={workout.user.image}
         alt=""
         className="flex-none w-10 h-10 rounded-full"

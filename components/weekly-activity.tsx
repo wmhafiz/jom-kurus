@@ -2,7 +2,6 @@
 
 import { Fragment, useState } from "react";
 import {
-  add,
   eachDayOfInterval,
   endOfWeek,
   startOfWeek,
@@ -10,33 +9,17 @@ import {
   isEqual,
   isSameDay,
   isToday,
-  parse,
-  parseISO,
   startOfToday,
+  formatISO,
   isWeekend,
-  getWeek,
 } from "date-fns";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Dot,
-  Dumbbell,
-  Cookie,
-  MoreVertical,
-} from "lucide-react";
+import { Dumbbell, MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Activity, ActivityType } from "@/lib/activity";
 import { Button } from "./ui/button";
 import { Menu, Transition } from "@headlessui/react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Workout } from "@/types/db";
 
-export function WeeklyActivity({ activities }: { activities: Activity[] }) {
+export function WeeklyActivity({ workouts }: { workouts: Workout[] }) {
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let firstDayCurrentWeek = startOfWeek(today);
@@ -46,26 +29,19 @@ export function WeeklyActivity({ activities }: { activities: Activity[] }) {
   });
 
   function getVariant(day: Date) {
-    if (isEqual(day, selectedDay)) {
-      return "default";
-    }
-
-    // if (isWeekend(day)) {
-    //   return "secondary";
-    // }
-
+    if (isEqual(day, selectedDay)) return "default";
     return "ghost";
   }
 
-  let selectedDayActivities = activities.filter((activitiy) =>
-    isSameDay(parseISO(activitiy.startDatetime), selectedDay)
+  let selectedDayWorkouts = workouts.filter((workout) =>
+    isSameDay(workout.createdAt, selectedDay)
   );
 
   return (
     <>
       <div className="mx-12 grid gap-4 grid-cols-7">
         {days.map((day) => (
-          <>
+          <div key={day.toISOString()}>
             <Button
               key={format(day, "yyyy-MM-dd")}
               className={cn(
@@ -77,78 +53,60 @@ export function WeeklyActivity({ activities }: { activities: Activity[] }) {
                 isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                 isEqual(day, selectedDay) && !isToday(day) && "bg-gray-900",
                 !isEqual(day, selectedDay) && "hover:bg-gray-200",
-                (isEqual(day, selectedDay) || isToday(day)) && "font-semibold"
+                (isEqual(day, selectedDay) || isToday(day)) && "font-semibold",
+                isWeekend(day) ? "text-emerald-500" : ""
               )}
               variant={getVariant(day)}
               onClick={() => setSelectedDay(day)}
             >
               <time dateTime={format(day, "yyyy-MM-dd")}>
-                {format(day, "d")}
+                {format(day, "iiiii")}
               </time>
               <div className="w-1 h-1 mx-auto mt-1">
-                {activities.some((activity) =>
-                  isSameDay(parseISO(activity.startDatetime), day)
+                {workouts.some((workout) =>
+                  isSameDay(workout.createdAt, day)
                 ) && <div className="w-1 h-1 rounded-full bg-sky-500"></div>}
               </div>
             </Button>
-          </>
+          </div>
         ))}
       </div>
-      <section className="mt-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              Activities for{" "}
-              <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
-                {format(selectedDay, "MMM dd, yyy")}
-              </time>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedDayActivities.length > 0 ? (
-                selectedDayActivities.map((activity) => (
-                  <Activity activity={activity} key={activity.id} />
-                ))
-              ) : (
-                <p className="px-4 py-2">No activity for today.</p>
-              )}
-            </ol>
-          </CardContent>
-        </Card>
+      <section className="mx-8 my-8">
+        Workouts for{" "}
+        <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
+          {format(selectedDay, "MMM dd, yyy")}
+        </time>
+        <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
+          {selectedDayWorkouts.length > 0 ? (
+            selectedDayWorkouts.map((workout) => (
+              <WorkoutDetail workout={workout} key={workout.id} />
+            ))
+          ) : (
+            <p className="px-4 py-2">No workouts for today.</p>
+          )}
+        </ol>
       </section>
     </>
   );
 }
 
-function Activity({ activity }: { activity: Activity }) {
-  let startDateTime = parseISO(activity.startDatetime);
-  let endDateTime = parseISO(activity.endDatetime);
-
+function WorkoutDetail({ workout }: { workout: Workout }) {
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <img
-        src={activity.imageUrl}
+        src={workout.user.image}
         alt=""
         className="flex-none w-10 h-10 rounded-full"
       />
       <div className="flex-auto">
-        <p className="text-gray-900">{activity.name}</p>
+        <p className="text-gray-900">{workout.description}</p>
         <p className="mt-0.5">
-          <time dateTime={activity.startDatetime}>
-            {format(startDateTime, "h:mm a")}
+          <time dateTime={formatISO(workout.createdAt)}>
+            {format(workout.createdAt, "h:mm a")}
           </time>{" "}
-          -{" "}
-          <time dateTime={activity.endDatetime}>
-            {format(endDateTime, "h:mm a")}
-          </time>
         </p>
       </div>
-      {activity.activityType === ActivityType.WORKOUT ? (
-        <Dumbbell />
-      ) : (
-        <Cookie />
-      )}
+      <Dumbbell />
 
       <Menu
         as="div"

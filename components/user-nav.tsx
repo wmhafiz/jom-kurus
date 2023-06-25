@@ -14,12 +14,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export function UserNav() {
   const { data: session, status } = useSession();
 
   if (status === "unauthenticated") {
-    return <Button onClick={() => signIn("discord")}>Login</Button>;
+    return (
+      <Link href={"/sign-in"}>
+        <Button>Login</Button>
+      </Link>
+    );
   }
 
   return (

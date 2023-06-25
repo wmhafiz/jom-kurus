@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import Image from "next/image";
 import {
   add,
   eachDayOfInterval,
@@ -53,17 +54,17 @@ export function MonthlyActivity({ activities }: { activities: Activity[] }) {
   );
 
   return (
-    <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
+    <div className="px-4 mx-auto sm:px-7 md:px-6">
       <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
         <div className="md:pr-14">
           <div className="flex items-center">
-            <h2 className="flex-auto font-semibold text-gray-900">
+            <h2 className="flex-auto font-semibold">
               {format(firstDayCurrentMonth, "MMMM yyyy")}
             </h2>
             <button
               type="button"
               onClick={previousMonth}
-              className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+              className="-my-1.5 flex flex-none items-center justify-center p-1.5 hover:text-gray-500"
             >
               <span className="sr-only">Previous month</span>
               <ChevronLeft className="w-5 h-5" aria-hidden="true" />
@@ -71,13 +72,13 @@ export function MonthlyActivity({ activities }: { activities: Activity[] }) {
             <button
               onClick={nextMonth}
               type="button"
-              className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+              className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 hover:text-gray-500"
             >
               <span className="sr-only">Next month</span>
               <ChevronRight className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
-          <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
+          <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center">
             <div>S</div>
             <div>M</div>
             <div>T</div>
@@ -100,17 +101,17 @@ export function MonthlyActivity({ activities }: { activities: Activity[] }) {
                   onClick={() => setSelectedDay(day)}
                   className={cn(
                     isEqual(day, selectedDay) && "text-white",
-                    !isEqual(day, selectedDay) &&
-                      isToday(day) &&
-                      "text-red-500",
-                    !isEqual(day, selectedDay) &&
-                      !isToday(day) &&
-                      isSameMonth(day, firstDayCurrentMonth) &&
-                      "text-gray-900",
-                    !isEqual(day, selectedDay) &&
-                      !isToday(day) &&
-                      !isSameMonth(day, firstDayCurrentMonth) &&
-                      "text-gray-400",
+                    // !isEqual(day, selectedDay) &&
+                    //   isToday(day) &&
+                    //   "text-red-500",
+                    // !isEqual(day, selectedDay) &&
+                    //   !isToday(day) &&
+                    //   isSameMonth(day, firstDayCurrentMonth) &&
+                    //   "text-gray-900",
+                    // !isEqual(day, selectedDay) &&
+                    //   !isToday(day) &&
+                    //   !isSameMonth(day, firstDayCurrentMonth) &&
+                    //   "text-gray-400",
                     isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                     isEqual(day, selectedDay) && !isToday(day) && "bg-gray-900",
                     !isEqual(day, selectedDay) && "hover:bg-gray-200",
@@ -134,13 +135,13 @@ export function MonthlyActivity({ activities }: { activities: Activity[] }) {
           </div>
         </div>
         <section className="mt-12 md:mt-0 md:pl-14">
-          <h2 className="font-semibold text-gray-900">
+          <h2 className="font-semibold ">
             Schedule for{" "}
             <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
               {format(selectedDay, "MMM dd, yyy")}
             </time>
           </h2>
-          <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
+          <ol className="mt-4 space-y-1 text-sm leading-6">
             {selectedDayActivities.length > 0 ? (
               selectedDayActivities.map((activity) => (
                 <Activity activity={activity} key={activity.id} />
@@ -161,13 +162,15 @@ function Activity({ activity }: { activity: Activity }) {
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <img
+      <Image
         src={activity.imageUrl}
         alt=""
+        width={25}
+        height={25}
         className="flex-none w-10 h-10 rounded-full"
       />
       <div className="flex-auto">
-        <p className="text-gray-900">{activity.name}</p>
+        <p className="">{activity.name}</p>
         <p className="mt-0.5">
           <time dateTime={activity.startDatetime}>
             {format(startDateTime, "h:mm a")}
@@ -189,7 +192,7 @@ function Activity({ activity }: { activity: Activity }) {
         className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100"
       >
         <div>
-          <Menu.Button className="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
+          <Menu.Button className="-m-2 flex items-center rounded-full p-1.5 hover:text-gray-600">
             <span className="sr-only">Open options</span>
             <MoreVertical className="w-6 h-6" aria-hidden="true" />
           </Menu.Button>
@@ -211,7 +214,7 @@ function Activity({ activity }: { activity: Activity }) {
                   <a
                     href="#"
                     className={cn(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                      active ? "bg-gray-100 " : "",
                       "block px-4 py-2 text-sm"
                     )}
                   >
@@ -224,7 +227,7 @@ function Activity({ activity }: { activity: Activity }) {
                   <a
                     href="#"
                     className={cn(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                      active ? "bg-gray-100" : "",
                       "block px-4 py-2 text-sm"
                     )}
                   >

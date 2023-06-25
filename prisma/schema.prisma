@@ -126,6 +126,8 @@ model DietLog {
   description   String?
   category      DietCategory
   calorieIntake Float
+  date          DateTime     @default(now())
+  isHealthy     Boolean?
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])
@@ -149,6 +151,8 @@ model WorkoutLog {
   category     WorkoutCategory
   calorieBurnt Float
   minutes      Float
+  heartRate    Int?
+  date         DateTime        @default(now())
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])

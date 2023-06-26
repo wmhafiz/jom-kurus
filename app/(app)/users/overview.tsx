@@ -14,6 +14,7 @@ import { RecentWorkout } from "./recent-workout";
 import TargetDiet from "./target-diet";
 import { RecentDiet } from "./recent-diet";
 import { db } from "@/lib/db";
+import { TotalIntake } from "./total-intake";
 import { getRecentWorkouts } from "@/data/workouts";
 
 async function getWorkouts() {
@@ -43,8 +44,7 @@ export default async function OverviewTab() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">20,000 kcal</div>
-            <p className="text-xs text-muted-foreground">-20.1% from target</p>
+           < TotalIntake />
           </CardContent>
         </Card>
         <Card>

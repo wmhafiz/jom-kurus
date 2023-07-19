@@ -1,4 +1,3 @@
-import { Overview } from "@/components/overview";
 import {
   Card,
   CardHeader,
@@ -7,25 +6,16 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Sword, DollarSign, Users, CreditCard, Activity } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import { WeeklyActivity } from "@/components/weekly-activity";
-import { activities } from "@/lib/activity";
 import { RecentWorkout } from "./recent-workout";
-import TargetDiet from "./target-diet";
 import { RecentDiet } from "./recent-diet";
 import { db } from "@/lib/db";
-import { TotalIntake } from "./total-intake";
-import { getRecentWorkouts } from "@/data/workouts";
+import { TotalIntake } from "@/components/cards/user/total-intake";
+import { AvgIntake } from "@/components/cards/user/average-intake";
+import { TotalBurnt } from "@/components/cards/user/total-burnt";
+import { AvgBurnt } from "@/components/cards/user/average-burnt";
 
 async function getWorkouts() {
-  // const res = await fetch("http://localhost:3000/api/workouts");
-
-  // if (!res.ok) {
-  //   // This will activate the closest `error.js` Error Boundary
-  //   throw new Error("Failed to fetch data");
-  // }
-
-  // return res.json();
   return db.workoutLog.findMany({
     include: {
       user: true,
@@ -44,7 +34,7 @@ export default async function OverviewTab() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-           < TotalIntake />
+            <TotalIntake />
           </CardContent>
         </Card>
         <Card>
@@ -55,10 +45,7 @@ export default async function OverviewTab() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,400 kcal per day</div>
-            <p className="text-xs text-muted-foreground">
-              +2% more than average user
-            </p>
+            <AvgIntake />
           </CardContent>
         </Card>
         <Card>
@@ -67,10 +54,7 @@ export default async function OverviewTab() {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
-            </p>
+            <TotalBurnt />
           </CardContent>
         </Card>
         <Card>
@@ -79,10 +63,7 @@ export default async function OverviewTab() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">
-              +201 since last hour
-            </p>
+            <AvgBurnt />
           </CardContent>
         </Card>
       </div>

@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
+import { useSelectedUser } from "@/lib/store";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -31,7 +32,8 @@ interface UserSwitcherProps extends PopoverTriggerProps {
 
 export default function UserSwitcher({ className, users }: UserSwitcherProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState<User>(users[0]);
+  const [selectedUser, setSelectedUser] = useSelectedUser();
+
   const { data: session, status } = useSession();
 
   useEffect(() => {

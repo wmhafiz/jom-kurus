@@ -11,6 +11,7 @@ import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import { useDateRange, useSelectedUser } from "@/lib/store";
 import { useQuery } from "@tanstack/react-query";
 import { formatNumber } from "@/lib/formatter";
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface UserOverview {
     totalIntake: number;
@@ -24,6 +25,16 @@ async function getUserOverview(userId?: string, dateFrom?: Date, dateTo?: Date,)
         (res) => res.json()
     )) as UserOverview
 }
+
+const CardLoading = () => (
+    <div className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+        </div>
+    </div>
+)
 
 export default function UserOverviewStats() {
     const [user] = useSelectedUser()
@@ -42,12 +53,16 @@ export default function UserOverviewStats() {
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">
-                        {formatNumber(data?.totalIntake ?? 0)} kcal
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                        calories left
-                    </p>
+                    {isLoading ? <CardLoading /> :
+                        <>
+                            <div className="text-2xl font-bold">
+                                {formatNumber(data?.totalIntake ?? 0)} kcal
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                calories left
+                            </p>
+                        </>
+                    }
                 </CardContent>
             </Card>
             <Card>
@@ -58,12 +73,14 @@ export default function UserOverviewStats() {
                     <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <>
-                        <div className="text-2xl font-bold">{formatNumber(data?.avgIntake ?? 0)} kcal per day</div>
-                        <p className="text-xs text-muted-foreground">
-                            +2% more than average user
-                        </p>
-                    </>
+                    {isLoading ? <CardLoading /> :
+                        <>
+                            <div className="text-2xl font-bold">{formatNumber(data?.avgIntake ?? 0)} kcal per day</div>
+                            <p className="text-xs text-muted-foreground">
+                                +2% more than average user
+                            </p>
+                        </>
+                    }
                 </CardContent>
             </Card>
             <Card>
@@ -72,14 +89,16 @@ export default function UserOverviewStats() {
                     <CreditCard className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <>
-                        <div className="text-2xl font-bold">
-                            {formatNumber(data?.totalBurnt ?? 0)} kcal
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                            +19% from last month
-                        </p>
-                    </>
+                    {isLoading ? <CardLoading /> :
+                        <>
+                            <div className="text-2xl font-bold">
+                                {formatNumber(data?.totalBurnt ?? 0)} kcal
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                +19% from last month
+                            </p>
+                        </>
+                    }
                 </CardContent>
             </Card>
             <Card>
@@ -88,14 +107,16 @@ export default function UserOverviewStats() {
                     <Activity className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <>
-                        <div className="text-2xl font-bold">
-                            {formatNumber(data?.avgBurnt ?? 0)} kcal
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                            +201 since last hour
-                        </p>
-                    </>
+                    {isLoading ? <CardLoading /> :
+                        <>
+                            <div className="text-2xl font-bold">
+                                {formatNumber(data?.avgBurnt ?? 0)} kcal
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                +201 since last hour
+                            </p>
+                        </>
+                    }
                 </CardContent>
             </Card>
         </>

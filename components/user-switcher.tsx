@@ -37,11 +37,15 @@ export default function UserSwitcher({ className, users }: UserSwitcherProps) {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (!selectedUser && status === "authenticated" && session && session.user) {
+    if (selectedUser) return;
+
+    if (status === "authenticated" && session && session.user) {
       const foundUsers = users.filter(
         (user) => user.email === session?.user.email
       );
       setSelectedUser(foundUsers[0]);
+    } else {
+      setSelectedUser(users[0])
     }
   }, [selectedUser, session, setSelectedUser, status, users]);
 

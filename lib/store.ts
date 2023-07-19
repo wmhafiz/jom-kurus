@@ -1,4 +1,5 @@
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom } from "jotai";
+import { atomWithStorage } from 'jotai/utils'
 import { DateRange } from "react-day-picker"
 import {
     startOfToday,
@@ -14,5 +15,5 @@ const dateRangeAtom = atom<DateRange | undefined>({
 })
 export const useDateRange = () => useAtom(dateRangeAtom)
 
-const selectedUserAtom = atom<User | undefined>(undefined)
+const selectedUserAtom = atomWithStorage<User | undefined>('selected-user', undefined)
 export const useSelectedUser = () => useAtom(selectedUserAtom)

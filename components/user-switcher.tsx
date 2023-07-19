@@ -37,13 +37,13 @@ export default function UserSwitcher({ className, users }: UserSwitcherProps) {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "authenticated" && session && session.user) {
+    if (!selectedUser && status === "authenticated" && session && session.user) {
       const foundUsers = users.filter(
         (user) => user.email === session?.user.email
       );
       setSelectedUser(foundUsers[0]);
     }
-  }, [session, status]);
+  }, [selectedUser, session, setSelectedUser, status, users]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -58,7 +58,7 @@ export default function UserSwitcher({ className, users }: UserSwitcherProps) {
         >
           <Avatar className="mr-2 h-5 w-5">
             <AvatarImage src={selectedUser?.image} alt={selectedUser?.name} />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>NA</AvatarFallback>
           </Avatar>
           {selectedUser?.name}
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />

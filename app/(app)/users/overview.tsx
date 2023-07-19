@@ -5,7 +5,6 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
-import { Sword, DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import { WeeklyActivity } from "@/components/weekly-activity";
 import { RecentWorkout } from "./recent-workout";
 import { RecentDiet } from "./recent-diet";

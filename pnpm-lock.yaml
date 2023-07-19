@@ -111,8 +111,8 @@ dependencies:
     specifier: ^5.0.0-alpha.80
     version: 5.0.0-alpha.80(@tanstack/react-query@4.29.25)(next@13.4.6)(react-dom@18.2.0)(react@18.2.0)
   '@tremor/react':
-    specifier: ^3.3.0
-    version: 3.3.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2)
+    specifier: ^3.4.1
+    version: 3.4.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2)
   '@types/node':
     specifier: 20.3.1
     version: 20.3.1
@@ -1996,8 +1996,8 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@tremor/react@3.3.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2):
-    resolution: {integrity: sha512-fgLQUOFknOofLzqpd3ePfeincJxdgclKBYQOfVYtsaakVtxcng4tnxDekyd6fu5VWOyMTqWXeOXYMdv0O+darw==}
+  /@tremor/react@3.4.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.2):
+    resolution: {integrity: sha512-o+jUN4GJYmjghEBGBEThM+STFrXD+7bze4AcZ4BA8p+s9LmkrDc/8SFItc6R/xkFsvj3jdE63bJWCD4f3FvsNA==}
     peerDependencies:
       react: ^18.0.0
       react-dom: '>=16.6.0'

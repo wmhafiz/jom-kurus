@@ -1,15 +1,15 @@
 import { atom, useAtom } from "jotai";
 import { atomWithStorage } from 'jotai/utils'
-import { DateRange } from "react-day-picker"
 import {
     startOfToday,
     startOfMonth,
     endOfMonth,
 } from "date-fns";
 import { User } from "@prisma/client";
+import { DateRangePickerValue } from "@tremor/react";
 
 const today = startOfToday()
-const dateRangeAtom = atom<DateRange | undefined>({
+const dateRangeAtom = atom<DateRangePickerValue>({
     from: startOfMonth(today),
     to: endOfMonth(today),
 })

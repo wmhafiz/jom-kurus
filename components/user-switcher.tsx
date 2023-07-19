@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
+import { useSelectedUser } from "@/lib/store";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -31,17 +32,22 @@ interface UserSwitcherProps extends PopoverTriggerProps {
 
 export default function UserSwitcher({ className, users }: UserSwitcherProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState<User>(users[0]);
+  const [selectedUser, setSelectedUser] = useSelectedUser();
+
   const { data: session, status } = useSession();
 
   useEffect(() => {
+    if (selectedUser) return;
+
     if (status === "authenticated" && session && session.user) {
       const foundUsers = users.filter(
         (user) => user.email === session?.user.email
       );
       setSelectedUser(foundUsers[0]);
+    } else {
+      setSelectedUser(users[0])
     }
-  }, [session, status]);
+  }, [selectedUser, session, setSelectedUser, status, users]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,7 +62,7 @@ export default function UserSwitcher({ className, users }: UserSwitcherProps) {
         >
           <Avatar className="mr-2 h-5 w-5">
             <AvatarImage src={selectedUser?.image} alt={selectedUser?.name} />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>NA</AvatarFallback>
           </Avatar>
           {selectedUser?.name}
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />

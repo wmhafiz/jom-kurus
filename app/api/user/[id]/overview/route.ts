@@ -37,12 +37,12 @@ export async function GET(
     const totalBurnt = burntResult._sum.calorieBurnt ?? 0
     const avgBurnt = burntResult._avg.calorieBurnt ?? 0
 
-    console.log('result', JSON.stringify({
-        userId: params.id,
-        gte: dateFrom.toISOString(),
-        lte: dateTo.toISOString(),
-        intakeResult,
-        burntResult
-    }, null, 2))
+    // console.log('result', JSON.stringify({
+    //     userId: params.id,
+    //     gte: dateFrom.toISOString(),
+    //     lte: dateTo.toISOString(),
+    //     intakeResult,
+    //     burntResult
+    // }, null, 2))
     return NextResponse.json({ totalIntake, avgIntake, totalBurnt, avgBurnt })
 }
